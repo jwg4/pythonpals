@@ -19,13 +19,13 @@ piece_names = [
 [ shapes[name] for name in piece_names ]
 
 def rotate(shape, angle):
-    ...
+    pass
     
 def translate(shape, x, y):
     """
     > translate([(0, 0), (2, 2), (4, 0)], 1, 7)
     [(1, 7), (3, 9), (5, 7)]
     """
-    ...
+    pass
 
 
