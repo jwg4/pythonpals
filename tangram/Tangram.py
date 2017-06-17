@@ -1,10 +1,7 @@
-
 # coding: utf-8
-
-# In[12]:
-
 import numpy as py
 import math
+
 
 # Define square, corners, print method
 class Square(object):
@@ -132,10 +129,3 @@ reflect(triangle_1, -1, 1)
 print("Triangle rotated 90 deg clockwise and reflected across x-axis")
 triangle_1.print()
 print('************************')
-
-
-
-# In[ ]:
-
-
-
