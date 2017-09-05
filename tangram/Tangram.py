@@ -63,44 +63,44 @@ def reflect(shape, x, y):
     for i in range(len(shape.points)):
         shape.points[i][0] = shape.points[i][0] * y
         shape.points[i][1] = shape.points[i][1] * x
-        
+
     # If translated back to origin, return to original coordinates
     if at_origin == False:
         trans(shape, temp_point[0], temp_point[1])
-        
+
 
 # Function 'rotate'
 # Rotates shape by using rotation matrix on coordinate vectors in turn
 # Usage: 'shape' = shape to be rotated clockwise, 'angle' = angle to be rotated in degrees
 def rotate(shape, angle):
-    
+
     angle = math.radians(angle)
-    rot_matrix = np.array([[math.cos(angle), -math.sin(angle)],[math.sin(angle), math.cos(angle)]])
-    
+    rot_matrix = np.array([[math.cos(angle), -math.sin(angle)], [math.sin(angle), math.cos(angle)]])
+
     # Round to avoid errors
     rot_matrix = np.around(rot_matrix)
-    
+
     # As reflecting about origin, determine whether point1 is at origin
     # If not, save temp coordinates and move point1 to origin
     at_origin = np.array_equal(shape.points[0], np.array([0, 0]))
-    
+
     if (at_origin == False):
         temp_point = shape.points[0]
-        
+
         trans(shape, -temp_point[0], -temp_point[1])
-    
+
     # Rotate
     for i in range(len(shape.points)):
         shape.points[i] = np.round(np.dot(shape.points[i], rot_matrix), 0)
-    
+
     # If translated back to origin, return to original coordinates
     if at_origin == False:
         trans(shape, temp_point[0], temp_point[1])
 
 
 if __name__ == "__main__":
-    
-    # Declare shape coordinates        
+
+    # Declare shape coordinates
     square_test_points = [np.array([0, 0]), np.array([1, 0]), np.array([1, 1]), np.array([0, 1])]
     triangle_test_points = [np.array([0, 0]), np.array([1, 0]), np.array([0, 1])]
     parallel_test_points = [np.array([0, 0]), np.array([2, 0]), np.array([3, 1]), np.array([1, 1])]
