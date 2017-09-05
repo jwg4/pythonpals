@@ -1,7 +1,5 @@
-
 # coding: utf-8
 
-# In[28]:
 
 import numpy as np
 import math
@@ -131,9 +129,3 @@ if __name__ == "__main__":
     print("Parallelogram reflected across x-axis and rotated 180 deg clockwise")
     print(parallel_1)
     print('************************')
-
-
-# In[ ]:
-
-
-
