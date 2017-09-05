@@ -32,9 +32,11 @@ class Parallel(object):
     def __str__(self):
         return "%s %s %s %s" % (self.points[0], self.points[1], self.points[2], self.points[3])
 
+
 # Function 'trans'
 # Translates shape by adding translation vector to coordinate vectors in turn
-# Usage: 'shape' = shape to be translated, 'x' = units to move in x direction, 'y' = units to move in y direction
+# Usage: 'shape' = shape to be translated, 'x' = units to move in x direction,
+# 'y' = units to move in y direction
 def trans(shape, x, y):
 
     trans_vec = np.array([x, y])
