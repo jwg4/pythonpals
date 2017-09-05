@@ -55,7 +55,7 @@ def reflect(shape, x, y):
     # If not, save temp coordinates and move point1 to origin
     at_origin = np.array_equal(shape.points[0], np.array([0, 0]))
 
-    if at_origin == False:
+    if not at_origin:
         temp_point = shape.points[0]
 
         trans(shape, -temp_point[0], -temp_point[1])
@@ -66,7 +66,7 @@ def reflect(shape, x, y):
         shape.points[i][1] = shape.points[i][1] * x
 
     # If translated back to origin, return to original coordinates
-    if at_origin == False:
+    if not at_origin:
         trans(shape, temp_point[0], temp_point[1])
 
 
@@ -85,7 +85,7 @@ def rotate(shape, angle):
     # If not, save temp coordinates and move point1 to origin
     at_origin = np.array_equal(shape.points[0], np.array([0, 0]))
 
-    if (at_origin == False):
+    if not at_origin:
         temp_point = shape.points[0]
 
         trans(shape, -temp_point[0], -temp_point[1])
@@ -95,7 +95,7 @@ def rotate(shape, angle):
         shape.points[i] = np.round(np.dot(shape.points[i], rot_matrix), 0)
 
     # If translated back to origin, return to original coordinates
-    if at_origin == False:
+    if not at_origin:
         trans(shape, temp_point[0], temp_point[1])
 
 
