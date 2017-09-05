@@ -109,23 +109,26 @@ def rotate(shape, angle):
     if flag == 'moved':
         trans(shape, temp_point[0], temp_point[1])
 
-        
-# Declare square and triangle, vectors used for coordinates        
-square_1 = Square(py.array([0, 0]), py.array([1, 0]), py.array([1, 1]), py.array([0, 1]))
-triangle_1 = Triangle(py.array([0, 0]), py.array([1, 0]), py.array([0, 1]))        
-        
+# This 'if' checks if we are running the code, or just importing it 
+# from another Python script. It won't run the following if we are 
+# importing it.
+if __name__ == '__main__':
+    # Declare square and triangle, vectors used for coordinates        
+    square_1 = Square(py.array([0, 0]), py.array([1, 0]), py.array([1, 1]), py.array([0, 1]))
+    triangle_1 = Triangle(py.array([0, 0]), py.array([1, 0]), py.array([0, 1]))        
 
-# test by translating shape and rotating
-square_1.print()
-trans(square_1, 2, 0)
-rotate(square_1, 90)
-print("Square translated 2 in x-direction and rotated 90 deg clockwise")
-square_1.print()
-print('************************')
 
-triangle_1.print()
-rotate(triangle_1, 90)
-reflect(triangle_1, -1, 1)
-print("Triangle rotated 90 deg clockwise and reflected across x-axis")
-triangle_1.print()
-print('************************')
+    # test by translating shape and rotating
+    square_1.print()
+    trans(square_1, 2, 0)
+    rotate(square_1, 90)
+    print("Square translated 2 in x-direction and rotated 90 deg clockwise")
+    square_1.print()
+    print('************************')
+
+    triangle_1.print()
+    rotate(triangle_1, 90)
+    reflect(triangle_1, -1, 1)
+    print("Triangle rotated 90 deg clockwise and reflected across x-axis")
+    triangle_1.print()
+    print('************************')
