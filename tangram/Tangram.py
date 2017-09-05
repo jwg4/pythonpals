@@ -1,54 +1,49 @@
+
 # coding: utf-8
-import numpy as py
+
+# In[28]:
+
+import numpy as np
 import math
 
-
-# Define square, corners, print method
+# Define square, corners, string method
 class Square(object):
     
-    corners = 4
+    def __init__(self, points):
+        self.points = points
     
-    def __init__(self, point1, point2, point3, point4):
-        self.point1 = point1
-        self.point2 = point2
-        self.point3 = point3
-        self.point4 = point4
-    
-    def print(self):
-        print(self.point1)
-        print(self.point2)
-        print(self.point3)
-        print(self.point4)
+    def __str__(self):
+        return "%s %s %s %s" % (self.points[0], self.points[1], self.points[2], self.points[3])
+            
 
-# Define triangle, corners, print method
+# Define triangle, corners, string method
 class Triangle(object):
     
-    corners = 3
-    
-    def __init__(self, point1, point2, point3):
-        self.point1 = point1
-        self.point2 = point2
-        self.point3 = point3
+    def __init__(self, points):
+        self.points = points
         
-    def print(self):
-        print(self.point1)
-        print(self.point2)
-        print(self.point3)
+    def __str__(self):
+        return "%s %s %s" % (self.points[0], self.points[1], self.points[2])
+    
 
+# Define parallelogram, corners, string method
+class Parallel(object):
+    
+    def __init__(self, points):
+        self.points = points
+
+    def __str__(self):
+        return "%s %s %s %s" % (self.points[0], self.points[1], self.points[2], self.points[3])
 
 # Function 'trans'
 # Translates shape by adding translation vector to coordinate vectors in turn
 # Usage: 'shape' = shape to be translated, 'x' = units to move in x direction, 'y' = units to move in y direction
 def trans(shape, x, y):
     
-    trans_vec = py.array([x, y])
+    trans_vec = np.array([x, y])
     
-    shape.point1 = shape.point1 + trans_vec
-    shape.point2 = shape.point2 + trans_vec
-    shape.point3 = shape.point3 + trans_vec
-    
-    if shape.corners == 4:
-        shape.point4 = shape.point4 + trans_vec
+    for i in range(len(shape.points)):
+        shape.points[i] = shape.points[i] + trans_vec
     
 
 # Function 'reflect'
@@ -57,28 +52,22 @@ def trans(shape, x, y):
 # Usage: set 'x' = -1 to reflect across x-axis, else set as 1, same applies to 'y'
 def reflect(shape, x, y):
     
-    # As rotating about origin, save temp coordinates and move point1 to origin
-    if (shape.point1[0] and shape.point1[1]) == 0:
-        temp_point = shape.point1
+    # As reflecting about origin, determine whether point1 is at origin
+    # If not, save temp coordinates and move point1 to origin
+    at_origin = np.array_equal(shape.points[0], np.array([0, 0]))
+    
+    if at_origin == False:
+        temp_point = shape.points[0]
         
         trans(shape, -temp_point[0], -temp_point[1])
-        flag = 'moved'
     
     # Reflect across x-axis then y-axis as appropriate
-    shape.point1[0] = shape.point1[0] * x
-    shape.point2[0] = shape.point2[0] * x
-    shape.point3[0] = shape.point3[0] * x
-    shape.point1[1] = shape.point1[1] * y
-    shape.point2[1] = shape.point2[1] * y
-    shape.point3[1] = shape.point3[1] * y
+    for i in range(len(shape.points)):
+        shape.points[i][0] = shape.points[i][0] * y
+        shape.points[i][1] = shape.points[i][1] * x
         
-    
-    if shape.corners == 4:
-        shape.point4[0] = shape.point1[0] * x
-        shape.point4[1] = shape.point1[1] * y
-    
     # If translated back to origin, return to original coordinates
-    if flag == 'moved':
+    if at_origin == False:
         trans(shape, temp_point[0], temp_point[1])
         
 
@@ -88,47 +77,63 @@ def reflect(shape, x, y):
 def rotate(shape, angle):
     
     angle = math.radians(angle)
-    rot_matrix = py.array([[math.cos(angle), -math.sin(angle)],[math.sin(angle), math.cos(angle)]])
+    rot_matrix = np.array([[math.cos(angle), -math.sin(angle)],[math.sin(angle), math.cos(angle)]])
     
-    # As rotating about origin, save temp coordinates and move point1 to origin
-    if (shape.point1[0] and shape.point1[1]) == 0:
-        temp_point = shape.point1
+    # Round to avoid errors
+    rot_matrix = np.around(rot_matrix)
+    
+    # As reflecting about origin, determine whether point1 is at origin
+    # If not, save temp coordinates and move point1 to origin
+    at_origin = np.array_equal(shape.points[0], np.array([0, 0]))
+    
+    if (at_origin == False):
+        temp_point = shape.points[0]
         
         trans(shape, -temp_point[0], -temp_point[1])
-        flag = 'moved'
     
     # Rotate
-    shape.point1 = py.round(py.dot(shape.point1, rot_matrix), 2)
-    shape.point2 = py.round(py.dot(shape.point2, rot_matrix), 2)
-    shape.point3 = py.round(py.dot(shape.point3, rot_matrix), 2)
-    
-    if shape.corners == 4:
-        shape.point4 = py.round(py.dot(shape.point4, rot_matrix), 2)
+    for i in range(len(shape.points)):
+        shape.points[i] = np.round(np.dot(shape.points[i], rot_matrix), 0)
     
     # If translated back to origin, return to original coordinates
-    if flag == 'moved':
+    if at_origin == False:
         trans(shape, temp_point[0], temp_point[1])
 
-# This 'if' checks if we are running the code, or just importing it 
-# from another Python script. It won't run the following if we are 
-# importing it.
-if __name__ == '__main__':
-    # Declare square and triangle, vectors used for coordinates        
-    square_1 = Square(py.array([0, 0]), py.array([1, 0]), py.array([1, 1]), py.array([0, 1]))
-    triangle_1 = Triangle(py.array([0, 0]), py.array([1, 0]), py.array([0, 1]))        
 
+if __name__ == "__main__":
+    
+    # Declare shape coordinates        
+    square_test_points = [np.array([0, 0]), np.array([1, 0]), np.array([1, 1]), np.array([0, 1])]
+    triangle_test_points = [np.array([0, 0]), np.array([1, 0]), np.array([0, 1])]
+    parallel_test_points = [np.array([0, 0]), np.array([2, 0]), np.array([3, 1]), np.array([1, 1])]
+    square_1 = Square(square_test_points)
+    triangle_1 = Triangle(triangle_test_points)
+    parallel_1 = Parallel(parallel_test_points)
 
     # test by translating shape and rotating
-    square_1.print()
+    print(square_1)
     trans(square_1, 2, 0)
     rotate(square_1, 90)
     print("Square translated 2 in x-direction and rotated 90 deg clockwise")
-    square_1.print()
+    print(square_1)
     print('************************')
 
-    triangle_1.print()
+    print(triangle_1)
     rotate(triangle_1, 90)
-    reflect(triangle_1, -1, 1)
-    print("Triangle rotated 90 deg clockwise and reflected across x-axis")
-    triangle_1.print()
+    reflect(triangle_1, 1, -1)
+    print("Triangle rotated 90 deg clockwise and reflected across y-axis")
+    print(triangle_1)
     print('************************')
+
+    print(parallel_1)
+    reflect(parallel_1, -1, 1)
+    rotate(parallel_1, 180)
+    print("Parallelogram reflected across x-axis and rotated 180 deg clockwise")
+    print(parallel_1)
+    print('************************')
+
+
+# In[ ]:
+
+
+
